@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+    <title>Welcome to Bamboo Shop</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Bamboo Shop</h1>
+        <p> <b> <i> By BRB_CLUB_2005 </i></b></p>
+    </header>
+    <h2> 🔴 Our Product 🔴</h2>
+    <ul>
+        {% for product in products %}
+        <li>
+            <div class="product">
+                <h3>{{ product.name }}</h3>
+                <p>Price: ${{ product.price }}</p>
+                <p>Category: {{ product.category }}</p>
+                <p>Stock: {{ product.stock }}</p>
+                <p>Rating: {{ product.rating }} ★</p>
+                <p>{{ product.description }}</p>
+                <p><strong>Review:</strong> {{ product.review }}</p>
+                <p>Date Added: {{ product.date_added }}</p>
+                <button class="product-button">Buy Now</button>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    
+    <p> 🌟 <i> Engage with Us at @brbclub </i>🌟</p>
+</body>
+</html>
