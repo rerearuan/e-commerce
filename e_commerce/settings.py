@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-d+2pu^i*ya&h2cy@t5n4@+sx$^y3b5)@l+d4gfvloxa_@j&zq%
 DEBUG = True
 
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "regina-meilani-bambooshop.pbp.cs.ui.ac.id"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "http://regina-meilani-bambooshop.pbp.cs.ui.ac.id"]
 
 
 
