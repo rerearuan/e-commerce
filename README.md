@@ -1,8 +1,7 @@
-TUGAS 2 PBP
+TUGAS INDIVIDU PBP
 
 
-Web PWS: 
-
+TUGAS 2
 Jawaban dari pertanyaan tugas 2:
 1.  Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step?
 
@@ -47,3 +46,4 @@ Django sering dijadikan pilihan untuk pembelajaran awal karena kemudahan penggun
 5. Mengapa model pada Django disebut sebagai ORM?
 
 Model pada Django disebut sebagai ORM atau Object-Relational Mapping karena menghubungkan objek Python dengan tabel-tabel di database. ORM memungkinkan pengembang untuk berinteraksi dengan data menggunakan sintaks Python yang familiar, daripada menulis query SQL yang rumit. Ini membuat pengelolaan data lebih intuitif dan terintegrasi langsung dengan kode aplikasi, memungkinkan pengembang untuk menangani data sebagai objek dan mengelola hubungan antar data dengan cara yang lebih alami dan mudah dipahami.
+
