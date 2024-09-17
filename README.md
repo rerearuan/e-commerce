@@ -91,7 +91,8 @@ Setelah form selesai, saya menambahkan 4 fungsi views baru untuk melihat data ya
 
 Langkah berikutnya adalah menambahkan routing di file urls.py. Saya membuat URL yang terhubung ke setiap view yang sudah dibuat sebelumnya, sehingga masing-masing format dan view (baik yang menampilkan semua data atau berdasarkan ID) bisa diakses melalui URL yang berbeda.
 
-Setelah semua routing dan view sudah siap, saya menggunakan Postman untuk menguji setiap URL yang menampilkan data dalam format XML dan JSON.  Saya sedikit terhambat dalam deploy PWS karena masih ada error atau failed terus menerus. Saya telah menyertakan bukti screenshot hasil dari Postman sebagai dokumentasi bukti pengujian.
+Setelah semua routing dan view sudah siap, saya menggunakan Postman untuk menguji setiap URL yang menampilkan data dalam format XML dan JSON.  Tak lupa, saya melakukan add-commit-push ke GitHub E-commerce saya. Untuk deploy PWS. saya sedikit terhambat karena masih ada error atau failed terus menerus. Saya telah menyertakan bukti screenshot hasil dari Postman sebagai dokumentasi bukti pengujian.
+
 
 <img src="xmlimage.png">
 <img src="jsonimage.png">
