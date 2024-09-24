@@ -102,15 +102,31 @@ Setelah semua routing dan view sudah siap, saya menggunakan Postman untuk menguj
 
 # TUGAS 4
 
-## 1. Apa itu Django `UserCreationForm`, dan jelaskan apa kelebihan dan kekurangannya?
+## 1. Apa perbedaan antara HttpResponseRedirect() dan redirect()?
+
+`HttpResponseRedirect()` dan `redirect()` di Django memiliki kesamaan pada fungsinya, yaitu keduanya digunakan untuk mengarahkan pengguna ke URL yang berbeda setelah permintaan dikirimkan ke server. Perbedaan utamanya adalah `HttpResponseRedirect()` hanya menerima URL lengkap sebagai argumen, sedangkan `redirect()` lebih fleksibel.  Dengan menggunakan `redirect()`, kita bisa langsung memasukkan URL, nama pola, dan objek mode. Sehingga, Django secara otomatis akan mengelola proses pengalihan halaman tersebut. Sedangkan dengan `HttpResponseRedirect()`, kita harus memberikan URL penuh sebagai parameter, jadi kita perlu menuliskan URL lengkap atau membangunnya secara manual. Berdasarkan dokumentasi resmi Django, `redirect()` lebih sering digunakan karena kemudahannya dalam menangani berbagai skenario pengalihan halaman secara efisien.
 
 
+## 2. elaskan cara kerja penghubungan model Product dengan User!
 
-## 2. Apa perbedaan antara autentikasi dan otorisasi dalam konteks Django, dan mengapa keduanya penting?
+Model `Product` dan `User` di Django dapat dihubungkan menggunakan `ForeignKey`. Dengan cara ini, kita dapat memastikan bahwa setiap `product` yang ditambahkan ke sistem terkait dengan `user` yang spesifik. Misalnya, dalam model `Product`, kita bisa menambahkan `user = models.ForeignKey(User, on_delete=models.CASCADE)`. Jika `user` tersebut dihapus, maka `product` yang terkait dengan `user` tersebut juga bisa dihapus. Ini adalah cara yang efektif untuk mengelola hubungan antar objek dalam database.
 
-## 3. Apa itu cookies dalam konteks aplikasi web, dan bagaimana Django menggunakan cookies untuk mengelola data sesi pengguna?
+## 3. Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
 
-## 4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai?
+*Authentication* dan *authorization* adalah dua konsep yang berbeda, tetapi saling berkaitan. *Authentication* (otentikasi) adalah proses verifikasi identitas pengguna, biasanya melalui nama user dan kata sandi, untuk memastikan bahwa kita adalah pemilik akun yang sah. Setelah berhasil diotentikasi, *authorization* (otorisasi) menentukan hak akses user terhadap fitur atau bagian tertentu dalam aplikasi berdasarkan izin yang mereka miliki. Saat pengguna login, Django menggunakan model `User` untuk otentikasi, sedangkan otorisasi dilakukan dengan sistem `permissions` sehingga pengaturan akses ke fitur tertentu hanya untuk user yang berhak.
+
+## 4. Bagaimana Django mengingat pengguna yang telah login? Jelaskan kegunaan lain dari cookies dan apakah semua cookies aman digunakan?
+
+Django mengingat user yang telah login dengan menggunakan sesi berbasis cookie. Ketika kita berhasil login, Django akan membuat cookie khusus di browser pengguna yang berisi ID sesi yang unik. ID ini digunakan untuk melacak sesi pengguna selama menggunakan web tanpa perlu meminta login kembali di setiap halaman. Selain untuk melacak login, cookie juga sering digunakan untuk menyimpan data sesi sementara lainnya.  Untuk memastikan keamanan cookie, kita bisa menggunakan Secure dan HttpOnly flags agar lebih aman dari serangan seperti Cross-Site Scripting (XSS) yang bisa mengeksploitasi data cookie.
 
 ## 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+
+Pertama-tama, saya membuat halaman `register.html` dan `login.html` di dalam folder `templates` di `main app`. Di sini, saya memastikan form registrasi dan login terhubung dengan model `User` bawaan Django. Di `views.py`, saya mengimpor `UserCreationForm` untuk form registrasi dan menambahkan fungsi `register` yang akan menangani permintaan POST dan menampilkan pesan sukses saat pengguna berhasil membuat akun baru. Saya juga menambahkan form login dengan mengimpor `authenticate` dan `login`, kemudian membuat fungsi `login_user` yang menangani proses login dan merender `login.html`.
+
+Setelah itu, saya memastikan pengguna bisa logout dengan membuat fungsi `logout_user` yang mengimpor `logout` dan menambahkan button di halaman utama untuk memanggil fungsi ini. Saya juga menambahkan decorator `@login_required` pada fungsi `show_main` di `views.py`, sehingga pengguna hanya bisa mengakses halaman utama setelah login. Semua fungsi ini kemudian saya sambungkan dengan `urls.py` untuk membuat routing yang sesuai.
+
+Untuk membuat dummy data, saya mulai dengan membuat dua akun pengguna baru secara manual di aplikasi. Setelah itu, saya menambahkan tiga data produk dummy untuk setiap akun di database lokal. Saya membuat file `dummy_data.py` secara terpisah, di mana saya menuliskan skrip untuk membuat objek `Product` yang terkait dengan masing-masing pengguna. Di sini, saya mengimpor model `Product` dan `User`, lalu menggunakan `User.objects.get()` untuk mengambil masing-masing akun pengguna, kemudian membuat tiga entri produk untuk setiap akun dengan model `Product` yang sudah dihubungkan melalui `ForeignKey`.
+
+Langkah terakhir, saya memodifikasi fungsi `create_product_entry` di `views.py` untuk memastikan setiap produk baru yang dimasukkan terhubung langsung dengan pengguna yang sedang login, sehingga data yang dimasukkan selalu terkait dengan pengguna aktif. Setelah semua langkah selesai, saya melakukan migrasi dan testing untuk memastikan fitur login, logout, registrasi, serta penghubungan produk dengan pengguna berjalan lancar.
+
 
