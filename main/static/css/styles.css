@@ -1,0 +1,195 @@
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+h1{
+    color: green;
+}
+button-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1, header p {
+    text-align: center;
+}
+
+.button-container {
+    display: flex;              /* Flexbox untuk membuat tombol berada di tengah */
+    justify-content: center;     /* Pusatkan tombol secara horizontal */
+    gap: 10px;                   /* Beri jarak antar tombol */
+    margin-bottom: 20px;         /* Jarak bawah tombol */
+}
+
+.button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.button:hover {
+    background-color: #45a049;
+}
+
+.product-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Membagi menjadi 2 kolom */
+    gap: 20px; /* Jarak antar produk */
+    padding: 20px; /* Menambah padding di sekitar produk */
+}
+
+.product {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: left; /* Sesuaikan dengan tata letak yang diinginkan */
+}
+
+/* Styling untuk header produk */
+.product h3 {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Styling untuk tombol produk */
+.product-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+.product-button:hover {
+    background-color: #45a049;
+}
+
+.separator-line {
+    border: none; /* Hapus default border */
+    height: 2px;  /* Ketebalan garis */
+    background-color: #4CAF50; /* Warna hijau sesuai tema Bamboo Shop */
+    margin: 20px 0; /* Jarak antara elemen di atas dan di bawah garis */
+}
+
+
+
+h2, p.engage {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    margin: 20px 0;
+}
+
+
+/* Form container styling */
+.product-entry-form {
+    width: 50%; /* Control form width */
+    margin: 0 auto; /* Center form on the page */
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Form group styling */
+.form-group {
+    margin-bottom: 15px;
+}
+
+/* Input and select field styling */
+.product-entry-form input[type="text"], .product-entry-form input[type="number"], 
+.product-entry-form select, .product-entry-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Submit button styling */
+.btn-submit {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    display: block;
+    width: 100%;
+}
+
+.btn-submit:hover {
+    background-color: #45a049;
+}
+
+/* Styling the login container */
+.login-container {
+    width: 40%; /* Adjust the width as needed */
+    margin: 0 auto; /* Center the login form */
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Styling for the form group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Styling for the input fields and button */
+input[type="text"], input[type="password"], input[type="submit"] {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Styling for the submit button */
+.login-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-btn:hover {
+    background-color: #45a049;
+}
+
+/* Styling for messages */
+.message-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.message {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Styling the 'Register Now' link */
+.login-container a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.login-container a:hover {
+    text-decoration: underline;
+}

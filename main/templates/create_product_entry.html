@@ -1,18 +1,18 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+
+{% load static %}  <!-- Load static files here -->
+
 {% block content %}
 <h1>Add New Product Entry</h1>
 
-<form method="POST">
+<form method="POST" class="product-entry-form">
     {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-      <tr>
-        <td></td>
-        <td>
-          <input type="submit" value="Add Product Entry" />
-        </td>
-      </tr>
-    </table>
-  </form>
+    <div class="form-group">
+        {{ form.as_p }}
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Add Product Entry" class="btn-submit" />
+    </div>
+</form>
 
 {% endblock %}

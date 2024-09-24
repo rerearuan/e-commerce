@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="login-container">
+  <h1>Login</h1>
+
+  <form method="POST" action="">
+    {% csrf_token %}
+    <div class="form-group">
+      {{ form.as_p }}  <!-- More readable form rendering using as_p instead of as_table -->
+    </div>
+    <div class="form-group">
+      <input class="btn login-btn" type="submit" value="Login" />
+    </div>
+  </form>
+
+  {% if messages %}
+  <ul class="message-list">
+    {% for message in messages %}
+    <li class="message">{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+  <p>Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a></p>
+</div>
+{% endblock content %}
