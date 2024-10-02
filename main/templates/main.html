@@ -2,69 +2,63 @@
 {% load static %}
 
 {% block content %}
-<head>
-    <title>Welcome to Bamboo Shop</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
-</head>
-<body>
-    <header>
-        <h1>Hi, <u> <i>{{name}}</i></u>!</h1>
-        <h5 style="text-align: center;"> Last login: {{ last_login }}</h5>
-        <hr class="separator-line">
-        <h1>Welcome to Bamboo Shop</h1>
-        <p><b><i>By Regina Meilani Aruan/2306275632</i></b></p>
+{% include 'navbar.html' %}
+<header>
+    <h1>Hi, <u><i>{{ name }}</i></u>!</h1>
+    <h5 style="text-align: center;">Last login: {{ last_login }}</h5>
+    <hr class="separator-line">
+    <h1>Welcome to Bamboo Shop</h1>
+    <p><b><i>By Regina Meilani Aruan/2306275632</i></b></p>
+</header>
 
-    </header>
-    
-    <div class="button-container">
-        <a href="{% url 'main:create_product_entry' %}">
-            <button class="button">Add New Product Entry</button>
-        </a>
-        <a href="{% url 'main:logout' %}">
-            <button class="button">Logout</button>
-        </a>
-    </div>    
-    
-    <h2>🔴 Our Product 🔴</h2>
-    <div class="product-container">
-        {% for product in products %}
-        <div class="product">
-            <h3>{{ product.name }}</h3>
-            <p>Price: ${{ product.price }}</p>
-            <p>Category: {{ product.category }}</p>
-            <p>Stock: {{ product.stock }}</p>
-            <p>Rating: {{ product.rating }} ★</p>
-            <p>{{ product.description }}</p>
-            <p><strong>Review:</strong> {{ product.review }}</p>
-            <p>Date Added: {{ product.date_added }}</p>
-            <button class="product-button">Buy Now</button>
-        </div>
-        {% endfor %}
+<h2>🔴 Our Products 🔴</h2>
+<div class="product-container">
+    {% for product in products %}
+    <div class="product">
+        <h3>{{ product.name }}</h3>
+        <p>Price: ${{ product.price }}</p>
+        <p>Category: {{ product.category }}</p>
+        <p>Stock: {{ product.stock }}</p>
+        <p>Rating: {{ product.rating }} ★</p>
+        <p>{{ product.description }}</p>
+        <p><strong>Review:</strong> {{ product.review }}</p>
+        <p>Date Added: {{ product.date_added }}</p>
     </div>
-    
-    <h2>🔴 New Products 🔴</h2>
-    {% if not product_entries %}
-    <p style="text-align: center;">Anda belum menambahkan produk baru pada Bamboo Shop.</p>
-    {% else %}
-    <div class="product-container">
-        {% for product_entry in product_entries %}
-        <div class="product">
-            <h3>{{ product_entry.name }}</h3>
-            <p>Price: ${{ product_entry.price }}</p>
-            <p>Category: {{ product_entry.category }}</p>
-            <p>Stock: {{ product_entry.stock }}</p>
-            <p>Rating: {{ product_entry.rating }} ★</p>
-            <p>{{ product_entry.description }}</p>
-            <p><strong>Review:</strong> {{ product_entry.review }}</p>
-            <p>Date Added: {{ product_entry.date_added }}</p>
-            <button class="product-button">Buy Now</button>
-        </div>
-        {% endfor %}
+    {% endfor %}
+</div>
+<h2 id="new-products">🔴 New Products 🔴</h2>
+{% if not product_entries %}
+<p style="text-align: center;">Anda belum menambahkan produk baru pada Bamboo Shop.</p>
+{% else %}
+<div class="product-container">
+    {% for product_entry in product_entries %}
+    <div class="product">
+        <h3>{{ product_entry.name }}</h3>
+        <p>Price: ${{ product_entry.price }}</p>
+        <p>Category: {{ product_entry.category }}</p>
+        <p>Stock: {{ product_entry.stock }}</p>
+        <p>Rating: {{ product_entry.rating }} ★</p>
+        <p>{{ product_entry.description }}</p>
+        <p><strong>Review:</strong> {{ product_entry.review }}</p>
+        <p>Date Added: {{ product_entry.date_added }}</p>
+        <a href="{% url 'main:edit_product' product_entry.id %}">
+            <button class="product-button">Edit</button>
+        </a>
+        <a href="{% url 'main:delete_product' product_entry.id %}">
+            <button class="product-button">Delete</button>
+        </a>
     </div>
-    {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
 
-    <p class="engage">🌟 <i> Engage with Us at @brbclub </i>🌟</p>
-  
-</body>
+
+<div class="button-container">
+    <a href="{% url 'main:create_product_entry' %}">
+        <button class="button">Add New Product Entry</button>
+    </a>
+</div>
+
+<p class="engage">🌟 <i> Engage with Us at @brbclub </i>🌟</p>
 
 {% endblock content %}

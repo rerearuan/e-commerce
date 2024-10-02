@@ -154,6 +154,14 @@ input[type="text"], input[type="password"], input[type="submit"] {
     transition: background-color 0.3s;
 }
 
+.login-logo {
+    width: 100%; 
+    max-width: 100px; 
+    height: auto; 
+    margin-bottom: 20px; 
+}
+
+
 .login-btn:hover {
     background-color: #45a049;
 }
@@ -177,3 +185,30 @@ input[type="text"], input[type="password"], input[type="submit"] {
 .login-container a:hover {
     text-decoration: underline;
 }
+
+.navbar-toggler {
+    border-color: transparent; 
+}
+
+.navbar-toggler-icon {
+    background-image: none; 
+}
+
+.navbar-toggler-icon:before {
+    content: ''; 
+    display: block;
+    width: 30px; 
+    height: 2px; 
+    background-color: white; 
+    margin: 6px 0; 
+}
+
+.navbar-toggler-icon:after {
+    content: ''; 
+    display: block;
+    width: 30px; 
+    height: 2px; 
+    background-color: white;
+    margin: 6px 0; 
+}
+
