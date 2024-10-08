@@ -1,64 +1,277 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block meta %}
+<title>BambooShop - Product Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+{% endblock meta %}
+
 {% block content %}
 {% include 'navbar.html' %}
-<header>
-    <h1>Hi, <u><i>{{ name }}</i></u>!</h1>
-    <h5 style="text-align: center;">Last login: {{ last_login }}</h5>
-    <hr class="separator-line">
-    <h1>Welcome to Bamboo Shop</h1>
-    <p><b><i>By Regina Meilani Aruan/2306275632</i></b></p>
+
+<div class="page-container"> 
+  <header class="text-center py-4" style="background-color: #e8f5e9; border-radius: 8px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);">
+    <div class="container">
+        <h1 class="display-4 text-success fw-bold">Hi, <u><i>{{ name }}</i></u>!</h1>
+        <h5 class="text-muted mt-2">Last login: {{ last_login }}</h5>
+        <hr class="my-4 mx-auto w-50" style="border: 2px solid #66bb6a;">
+        <h1 class="text-success text-2xl fw-semibold">Welcome to Bamboo Shop</h1>
+        <div class="bg-light text-success p-3 rounded-3 mt-3" style="border: 2px dashed #81c784; display: inline-block;">
+            <p class="m-0">
+                <b><i>By Regina Meilani Aruan/2306275632</i></b>
+            </p>
+        </div>
+    </div>
 </header>
 
-<h2>🔴 Our Products 🔴</h2>
-<div class="product-container">
-    {% for product in products %}
-    <div class="product">
-        <h3>{{ product.name }}</h3>
-        <p>Price: ${{ product.price }}</p>
-        <p>Category: {{ product.category }}</p>
-        <p>Stock: {{ product.stock }}</p>
-        <p>Rating: {{ product.rating }} ★</p>
-        <p>{{ product.description }}</p>
-        <p><strong>Review:</strong> {{ product.review }}</p>
-        <p>Date Added: {{ product.date_added }}</p>
+  <div class="text-center mb-4">
+    <h2 class="text-success fw-bold">Our Outdated Products</h2> 
+  </div>
+  
+  <div id="newProductsCarousel" class="carousel slide mb-5" data-bs-ride="carousel" style="max-width: 600px; margin: 0 auto;">
+      <div class="carousel-indicators">
+          <button type="button" data-bs-target="#newProductsCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#newProductsCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#newProductsCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          <button type="button" data-bs-target="#newProductsCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+      </div>
+  
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{% static 'images/product1.jpg' %}" class="d-block w-100 rounded-3" alt="Product 1" style="height: 300px; object-fit: cover;">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>Bamboo Floor 1</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'images/product2.jpg' %}" class="d-block w-100 rounded-3" alt="Product 2" style="height: 300px; object-fit: cover;">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>Bamboo Sofa</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'images/product3.jpg' %}" class="d-block w-100 rounded-3" alt="Product 3" style="height: 300px; object-fit: cover;">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>Bamboo Lamp</h5>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'images/product4.jpg' %}" class="d-block w-100 rounded-3" alt="Product 4" style="height: 300px; object-fit: cover;">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>Bamboo Fence</h5>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#newProductsCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#newProductsCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+  </div>
+  
+  <div class="text-center mb-4" id="new-products">
+    <h2 class="text-success fw-bold">New Products</h2> 
+  </div>
+
+  <div id="product_cards"></div>
+
+  <div class="modal fade" id="crudModal" tabindex="-1" aria-labelledby="crudModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="crudModalLabel">Add New Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form id="productEntryForm">
+            <div class="mb-3">
+              <label for="name" class="form-label">Product Name</label>
+              <input type="text" id="name" name="name" class="form-control" placeholder="Enter product name" required>
+            </div>
+            <div class="mb-3">
+              <label for="category" class="form-label">Category</label>
+              <input type="text" id="category" name="category" class="form-control" placeholder="Enter category" required>
+            </div>
+            <div class="mb-3">
+              <label for="price" class="form-label">Price</label>
+              <input type="number" id="price" name="price" class="form-control" placeholder="Enter price" required>
+            </div>
+            <div class="mb-3">
+              <label for="stock" class="form-label">Stock</label>
+              <input type="number" id="stock" name="stock" class="form-control" placeholder="Enter stock quantity" required>
+            </div>
+            <div class="mb-3">
+              <label for="rating" class="form-label">Rating</label>
+              <input type="number" id="rating" name="rating" min="1" max="5" class="form-control" placeholder="Enter rating (1-5)" required>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea id="description" name="description" rows="3" class="form-control" placeholder="Enter product description" required></textarea>
+            </div>
+            <div class="mb-3">
+                <label for="review" class="form-label">Review</label>
+                <textarea id="review" name="review" rows="3" class="form-control" placeholder="Enter product review" required></textarea>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" id="submitProductEntry" form="productEntryForm" class="btn btn-primary">Save</button>
+        </div>
+      </div>
     </div>
-    {% endfor %}
+  </div>
+  
+  <a href="{% url 'main:create_product_entry' %}" class="btn btn-outline-primary me-3">
+    Add New Product
+  </a>
+
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#crudModal">
+    Add New Product by AJAX
+  </button>
+  
 </div>
-<h2 id="new-products">🔴 New Products 🔴</h2>
-{% if not product_entries %}
-<p style="text-align: center;">Anda belum menambahkan produk baru pada Bamboo Shop.</p>
-{% else %}
-<div class="product-container">
-    {% for product_entry in product_entries %}
-    <div class="product">
-        <h3>{{ product_entry.name }}</h3>
-        <p>Price: ${{ product_entry.price }}</p>
-        <p>Category: {{ product_entry.category }}</p>
-        <p>Stock: {{ product_entry.stock }}</p>
-        <p>Rating: {{ product_entry.rating }} ★</p>
-        <p>{{ product_entry.description }}</p>
-        <p><strong>Review:</strong> {{ product_entry.review }}</p>
-        <p>Date Added: {{ product_entry.date_added }}</p>
-        <a href="{% url 'main:edit_product' product_entry.id %}">
-            <button class="product-button">Edit</button>
-        </a>
-        <a href="{% url 'main:delete_product' product_entry.id %}">
-            <button class="product-button">Delete</button>
-        </a>
-    </div>
-    {% endfor %}
-</div>
-{% endif %}
+<footer class="bg-success text-white text-center py-3">
+  <p>&copy; 2024 BambooShop. All rights reserved.</p>
+</footer>
 
+<script>
+    async function getProductEntries(){
+        return fetch("{% url 'main:show_json' %}").then((res) => res.json())
+    }
 
-<div class="button-container">
-    <a href="{% url 'main:create_product_entry' %}">
-        <button class="button">Add New Product Entry</button>
-    </a>
-</div>
+    async function refreshProductEntries() {
+        document.getElementById("product_cards").innerHTML = "";
+        const productEntries = await getProductEntries(); 
+        let htmlString = "";
 
-<p class="engage">🌟 <i> Engage with Us at @brbclub </i>🌟</p>
+        if (productEntries.length === 0) {
+            htmlString = `
+                <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 200px;">
+                    <p class="text-muted">Belum ada produk yang ditambahkan ke BambooShop.</p>
+                </div>
+            `;
+        } else {
+            productEntries.forEach((item) => {
+                const name = DOMPurify.sanitize(item.fields.name);
+                const description = DOMPurify.sanitize(item.fields.description);
+                const category = DOMPurify.sanitize(item.fields.category);
+                const review = DOMPurify.sanitize(item.fields.review);
 
+                htmlString += `
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-header bg-light text-dark">
+                            <h3 class="card-title">${name}</h3>
+                            <p class="card-subtitle text-muted">Category: ${category}</p>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Price:</strong> $${item.fields.price}</p>
+                            <p><strong>Stock:</strong> ${item.fields.stock}</p>
+                            <p><strong>Rating:</strong> ${item.fields.rating} ★</p>
+                            <p><strong>Description:</strong> ${description}</p>
+                            <p><strong>Review:</strong> ${review}</p>
+                            <p><strong>Date Added:</strong> ${item.fields.date_added}</p>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <a href="/edit-product/${item.pk}" class="btn btn-warning btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                    <path d="M12.146.854a.5.5 0 011.707.708L2.5 12.414V13.5h1.086L13.146 1.146a.5.5 0 00-.707-.707l-.707-.707a.5.5 0 00-.707.707l.707.707zm-.854.854L1.793 11.853v1.086H3.879L13.293 2.146a.5.5 0 00-.707-.707z"/>
+                                </svg>
+                                Edit
+                            </a>
+                            <a href="/delete/${item.pk}" class="btn btn-danger btn-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                    <path d="M5.5 5.5V5a1 1 0 011-1h2a1 1 0 011 1v.5h2.5a.5.5 0 010 1H3a.5.5 0 010-1H5.5zM4.118 4a1 1 0 011-1h5.764a1 1 0 011 1H4.118z"/>
+                                    <path fill-rule="evenodd" d="M3.5 5.5V5h1v.5H3.5zm2-1V5a1 1 0 011-1v-.5a.5.5 0 00-1 0V5zm4 0V4.5a.5.5 0 00-1 0V5a1 1 0 011 1h.5V5h-.5zm2.5 1V5h1v.5h-1zm-.5.5v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7H3v7a3 3 0 003 3h4a3 3 0 003-3v-7h-1z"/>
+                                </svg>
+                                Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                `;
+            });
+        }
+        document.getElementById("product_cards").innerHTML = htmlString;
+    }
+    refreshProductEntries();
+
+    async function addProductEntry() {
+        const formElement = document.querySelector('#productEntryForm');
+        const formData = new FormData(formElement);
+        const name = DOMPurify.sanitize(formData.get('name'));
+        const description = DOMPurify.sanitize(formData.get('description'));
+        const category = DOMPurify.sanitize(formData.get('category'));
+        const review = DOMPurify.sanitize(formData.get('review'));
+
+        if (name !== formData.get('name') || description !== formData.get('description') || category !== formData.get('category') || review !== formData.get('review')) {
+            alert('Produk mengandung input yang berbahaya dan tidak akan ditambahkan.PAHAM!');
+            return false; 
+        }
+
+        formData.set('name', name);
+        formData.set('description', description);
+        formData.set('category', category);
+        formData.set('review', review);
+        fetch("{% url 'main:add_product_entry_ajax' %}", {
+        method: "POST",
+        body: new FormData(document.querySelector('#productEntryForm')),
+        
+        })
+        .then(response => {
+        if (response.ok) {
+            refreshProductEntries();
+            document.getElementById("productEntryForm").reset(); 
+            var modal = bootstrap.Modal.getInstance(document.getElementById('crudModal'));
+            modal.hide();
+        } else {
+            alert('Gagal menambahkan produk: Terjadi kesalahan.');
+        }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('Gagal menambahkan produk: ' + error.message);
+        });
+
+        return false;
+    }
+
+    document.getElementById("productEntryForm").addEventListener("submit", function (e) {
+        e.preventDefault(); 
+        addProductEntry();    
+    });
+
+    
+    document.getElementById('toggleDarkMode').addEventListener('click', () => {
+      document.body.classList.toggle('bg-dark');
+      document.body.classList.toggle('text-light');
+      
+      const navbar = document.querySelector('.navbar');
+      navbar.classList.toggle('navbar-dark');
+      navbar.classList.toggle('bg-dark');
+      navbar.classList.toggle('navbar-light');
+      navbar.classList.toggle('bg-success');
+      
+      document.querySelectorAll('.card').forEach(card => {
+          card.classList.toggle('bg-dark');
+          card.classList.toggle('text-light');
+      });
+
+      const modalContent = document.querySelector('.modal-content');
+      modalContent.classList.toggle('bg-dark');
+      modalContent.classList.toggle('text-light');
+
+      const pageContainer = document.querySelector('.page-container');
+      pageContainer.classList.toggle('bg-dark');
+      pageContainer.classList.toggle('text-light');
+    });
+
+</script>
 {% endblock content %}

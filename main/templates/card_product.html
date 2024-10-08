@@ -1,0 +1,20 @@
+<div class="product">
+    <h3>{{ product.name }}</h3>
+    <p><span>Price:</span> ${{ product.price }}</p>
+    <p><span>Category:</span> {{ product.category }}</p>
+    <p><span>Stock:</span> {{ product.stock }}</p>
+    <p><span>Rating:</span> {{ product.rating }} ★</p>
+    <p><span>Description:</span> {{ product.description }}</p>
+    <p><span>Review:</span> {{ product.review }}</p>
+    <p><span>Date Added:</span> {{ product.date_added }}</p>
+
+    <div class="product-actions">
+        <a href="{% url 'main:edit_product' product.id %}">
+            <button class="product-button">Edit</button>
+        </a>
+        
+        <a href="{% url 'main:delete_product' product.id %}">
+            <button class="product-button delete-btn">Delete</button>
+        </a>
+    </div>
+</div>

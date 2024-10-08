@@ -13,7 +13,7 @@ class Product(models.Model):
     category = models.CharField(max_length=100)
     rating = models.FloatField(default=0)
     date_added = models.DateTimeField(auto_now_add=True)
-    review = models.TextField(blank=True, null=True)
+    review = models.TextField()
 
     def __str__(self):
         return self.name

@@ -1,0 +1,39 @@
+{% load static %}
+<nav class="navbar navbar-expand-md bg-success shadow-lg">
+    <div class="container">
+        <a class="navbar-brand text-white fw-bold d-flex align-items-center" href="#">
+            <img src="{% static 'images/logo.png' %}" alt="BambooShop" class="me-2" style="width: 40px; height: 40px;">
+            BambooShop
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon text-white">
+                <i class="bi bi-list"></i> 
+            </span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a class="nav-link text-white {% if request.resolver_match.url_name == 'show_main' %}active{% endif %}" href="{% url 'main:show_main' %}">
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#new-products">
+                        New Products
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="https://instagram.com/rrreginnn" target="_blank">
+                        Life at Bamboo
+                    </a>
+                </li>
+            </ul>
+            <div class="d-flex align-items-center"> 
+                <button id="toggleDarkMode" class="btn btn-outline-light me-3">Dark Mode</button>
+                <a class="nav-link btn btn-light text-success fw-bold" href="{% url 'main:logout' %}">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>

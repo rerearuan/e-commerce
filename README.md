@@ -8,6 +8,7 @@
 3. [Tugas 3](#tugas-3)
 4. [Tugas 4](#tugas-4)
 5. [Tugas 5](#tugas-5)
+6. [Tugas 6](#tugas-6)
 
 ## TUGAS 2
 
@@ -169,3 +170,37 @@ Selanjutnya, saya tidak perlu membuat desain card baru, karena saya sudah mendes
 Untuk setiap new produk yang ditambahkan admin, saya menambahkan dua button: satu untuk mengedit dan satu lagi untuk menghapus produk. Button-button ini saya letakkan di bawah informasi produk pada card. Saya memastikan bahwa tombol-tombol ini berfungsi dengan baik dengan menghubungkannya ke fungsi edit_item dan delete_item yang telah dibuat sebelumnya.
 
 Terakhir, saya memastikan bahwa tampilan aplikasi responsif, khususnya pada ukuran mobile dan desktop. Saya memanfaatkan fitur grid dan flexbox dari Bootstrap5 agar elemen-elemen dalam halaman bisa menyesuaikan ukuran layar dengan baik. Navbar saya juga menggunakan Bootstrap's navbar component yang secara otomatis berubah menjadi tombol hamburger saat ditampilkan di perangkat mobile.
+
+
+## TUGAS 6
+
+# 1. Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+
+JavaScript sangat bermanfaat dalam pengembangan aplikasi web karena memungkinkan halaman web menjadi interaktif dan responsif. Dengan JavaScript, kita bisa memperbarui konten halaman tanpa perlu me-reload seluruh halaman, membuat pengalaman pengguna lebih mulus. Misalnya, ketika menggunakan AJAX, JavaScript memungkinkan aplikasi web mengambil atau mengirim data ke server di latar belakang tanpa mengganggu aktivitas pengguna di halaman.
+
+
+# 2. Jelaskan fungsi dari penggunaan `await` ketika kita menggunakan `fetch()`! Apa yang akan terjadi jika kita tidak menggunakan `await`?
+
+Fungsi `await` digunakan ketika kita memanggil `fetch()` dalam JavaScript untuk menangani proses asinkron. `await` memastikan bahwa kode akan menunggu hingga permintaan ke server selesai dan respons diterima sebelum melanjutkan ke baris berikutnya. Jika kita tidak menggunakan `await`, kode akan terus berjalan tanpa menunggu respons. Hal ini dapat menyebabkan hasil yang tidak lengkap   karena data belum diterima saat kode dilanjutkan.
+
+# 3. Mengapa kita perlu menggunakan decorator `csrf_exempt` pada view yang akan digunakan untuk AJAX POST?
+
+Penggunaan decorator `csrf_exempt` pada view yang menangani AJAX POST bertujuan untuk menonaktifkan proteksi CSRF (Cross-Site Request Forgery). Django secara default melindungi aplikasi dari serangan CSRF, tetapi untuk request AJAX tertentu. Jadi, kita perlu menonaktifkan proteksi ini agar request bisa diterima tanpa menimbulkan error. Selain itu,  penting untuk memastikan bahwa request tetap aman dengan mekanisme proteksi lainnya.
+
+# 4. Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (backend) juga. Mengapa hal tersebut tidak dilakukan di frontend saja?
+
+Pembersihan data input pengguna di backend sangat penting meskipun ada validasi di frontend. Jika hanya mengandalkan frontend, user yang berniat jahat bisa mem-bypass validasi tersebut dengan mudah menggunakan alat tertentu. Jadi, backend juga harus membersihkan dan memvalidasi data untuk memastikan keamanan dan integritas aplikasi, mencegah serangan seperti XSS (Cross-Site Scripting).
+
+# 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+
+Pertama-tama, saya mengimplementasikan AJAX GET untuk mengambil data produk yang hanya milik pengguna yang sedang login. Di sini, saya membuat fungsi `getProductEntries()` yang mengambil data produk dari server dalam format JSON. Setelah itu, saya menggunakan fungsi `refreshProductEntries()` untuk menampilkan data produk secara dinamis tanpa harus melakukan reload halaman. Jadi, ketika ada perubahan, produk-produk yang muncul di halaman hanya milik pengguna yang sedang login.
+
+Untuk AJAX POST, saya membuat tombol yang membuka modal berisi form untuk menambah produk baru. Saat tombol ditekan, modal terbuka dan ketika form di-submit, data produk dikirim ke server menggunakan fetch (tanpa reload). Di sinilah fungsi `addProductEntry()` berperan. Fungsi ini mengirim data secara asinkron ke path `/create-ajax/`, yang terhubung ke fungsi view `add_product_entry_ajax`. Fungsi view ini akan menerima data dari form dan menyimpannya ke dalam database.
+
+Sebelum data produk dikirim ke server, di fungsi `addProductEntry()`, saya melakukan validasi menggunakan DOMPurify untuk membersihkan input dari potensi XSS. Jadi, misalnya jika ada input yang berbahaya di nama produk, deskripsi, kategori, atau review, produk tersebut tidak akan ditambahkan, dan saya menampilkan pesan alert yang mengatakan "Produk mengandung input yang berbahaya dan tidak akan ditambahkan.PAHAM!" Jika semua input aman, data akan dikirim ke server.
+
+Selain validasi XSS di frontend menggunakan DOMPurify pada fungsi `addProductEntry()`, saya juga melakukan pembersihan input di backend dengan menggunakan `strip_tags`. Ini diterapkan baik saat menambahkan maupun mengedit produk.
+
+Setelah produk berhasil ditambahkan, modal secara otomatis ditutup, form di-reset, dan produk baru langsung ditampilkan di halaman tanpa reload, berkat pemanggilan fungsi `refreshProductEntries()`. Jika ada masalah dalam proses penambahan produk, saya menampilkan pesan error yang sesuai, seperti "Gagal menambahkan produk."
+
+Dengan langkah ini, saya memastikan bahwa penambahan produk di BambooShop berjalan lancar, aman dari potensi serangan XSS, dan produk baru bisa langsung terlihat tanpa perlu melakukan reload halaman.

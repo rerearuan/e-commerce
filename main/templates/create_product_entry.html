@@ -6,7 +6,7 @@
 {% include 'navbar.html' %}
 <h1>Add New Product Entry</h1>
 
-<form method="POST" class="product-entry-form">
+<form id="productEntryForm" method="POST" class="product-entry-form">
     {% csrf_token %}
     <div class="form-group">
         {{ form.as_p }}
