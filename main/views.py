@@ -1,7 +1,8 @@
 import datetime
+import json
 from django.views.decorators.csrf import csrf_protect
 from django.utils.html import strip_tags
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from decimal import Decimal
 from django.urls import reverse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -26,7 +27,6 @@ def show_main(request):
 
     return render(request, "main.html", context)
 
-
 def create_product_entry(request):
     form = ProductEntryForm(request.POST or None)
 
@@ -42,6 +42,30 @@ def create_product_entry(request):
 def show_xml(request):
     data = Product.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+
+def show_json2(request):
+    if request.user.is_authenticated:
+        data = Product.objects.filter(user=request.user)
+        status = True  
+    else:
+        data = Product.objects.all()
+        status = True  
+
+    products = []
+    for product in data:
+        product_data = {
+            'name': product.name,
+            'price': product.price,
+            'rating': product.rating,
+            'description': product.description,
+            'stock': product.stock,
+            'category': product.category,
+            'review': product.review,
+        }
+        products.append(product_data)
+
+    return JsonResponse({"status": status, "products": products}, safe=False)
 
 def show_json(request):
     data = Product.objects.filter(user=request.user)
@@ -141,4 +165,29 @@ def add_product_entry_ajax(request):
 
         return HttpResponse(b"CREATED", status=201)
 
-    
+@csrf_exempt
+def create_product_flutter(request):
+    if request.method == 'POST':
+            # Memuat data dari request body
+            data = json.loads(request.body)
+            print(request.body)  # Untuk memeriksa payload
+
+
+            # Membuat entri produk baru
+            new_product = Product.objects.create(
+                user=request.user,
+                name=data["name"],
+                price=float(data["price"]),
+                description=data["description"],
+                stock=int(data["stock"]),
+                category=data["category"],
+                rating=float(data["rating"]),
+                review=data["review"]
+            )
+
+            # Menyimpan produk ke database
+            new_product.save()
+
+            return JsonResponse({"status": "success"}, status=200)
+    else:
+            return JsonResponse({"status": "error"}, status=401)

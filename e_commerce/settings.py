@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-d+2pu^i*ya&h2cy@t5n4@+sx$^y3b5)@l+d4gfvloxa_@j&zq%
 DEBUG = True
 
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "http://regina-meilani-bambooshop.pbp.cs.ui.ac.id"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "http://regina-meilani-bambooshop.pbp.cs.ui.ac.id", "10.0.2.2"]
 
 PRODUCTION = os.getenv("PRODUCTION", False)
 DEBUG = not PRODUCTION
@@ -41,11 +41,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main'
-
+    'main',
+    'authentication',
+    'corsheaders',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:56163',  # Ganti dengan asal frontend
+]
+
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -75,6 +82,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'e_commerce.wsgi.application'
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
 
 
 # Database
